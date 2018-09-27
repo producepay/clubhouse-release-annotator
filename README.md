@@ -5,11 +5,16 @@ commit messages.
 
 ## Configuration
 
-You must provide a Clubhouse API token.  You can put it in `.clubhouse_api_token` in a working
+You must provide a Clubhouse API token, which you can get from Clubhouse via gear icon ->
+settings -> API tokens.  
+
+You can put it in `.clubhouse_api_token` in a working
 directory (per-project config), `~/.clubhouse_api_token` (per-user config), or provide the
 environment variable CLUBHOUSE_API_TOKEN.
 
 ## Installation
+
+Not yet released as a public gem, so you have to build and install locally.
 
 1. Clone this repository
 1. `cd clubhouse-release-annotator`
