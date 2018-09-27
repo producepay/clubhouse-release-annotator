@@ -8,6 +8,7 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
     [
       double(Git::Object::Commit, message: "[branch ch123] a commit message"),
       double(Git::Object::Commit, message: "[branch ch1235] a commit message"),
+      double(Git::Object::Commit, message: "[branch ch1237] a commit message with ticket that appears more than once"),
       double(Git::Object::Commit, message: "[branch ch1237][branch ch1238] another commit message that finishes two tickets"),
       double(Git::Object::Commit, message: "[branch ch12345] a commit message with a five digit ticket")
     ]
@@ -44,7 +45,7 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       allow(mock_git).to receive(:log).and_return(unannotated_commits + annotated_commits)
       repo = ClubhouseReleaseAnnotator::Repository.new
       repo.instance_eval("parse_commits")
-      expect(repo.referenced_tickets).to include_exactly(["123", "1235", "1237", "1238", "12345"])
+      expect(repo.referenced_tickets).to contain_exactly("123", "1235", "1237", "1238", "12345")
     end
 
   end
