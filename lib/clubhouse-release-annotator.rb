@@ -3,7 +3,6 @@ require "clubhouse-release-annotator/config"
 require "clubhouse-release-annotator/repository"
 require "clubhouse-release-annotator/stories_info"
 require "clubhouse-release-annotator/formatter"
-require "byebug"
 
 module ClubhouseReleaseAnnotator
   class CLI
