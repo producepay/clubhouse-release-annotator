@@ -1,6 +1,5 @@
 require 'git'
 require 'logger'
-require 'byebug'
 
 module ClubhouseReleaseAnnotator
   class Repository
