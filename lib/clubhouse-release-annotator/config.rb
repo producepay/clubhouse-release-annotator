@@ -12,7 +12,7 @@ module ClubhouseReleaseAnnotator
     def initialize
       super(DEFAULTS)
       self[:clubhouse_api_token] = get_clubhouse_api_token
-      self[:working_directory] = Dir.pwd
+      self[:repo_directory] = Dir.pwd
     end
 
     def get_clubhouse_api_token

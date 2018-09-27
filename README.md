@@ -1,8 +1,13 @@
 # Clubhouse::Release::Annotator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/clubhouse/release/annotator`. To experiment with that code, run `bin/console` for an interactive prompt.
+Generates release notes for a project that has Clubhouse tickets annotated in the
+commit messages.
 
-TODO: Delete this and the text above, and describe your gem
+## Configuration
+
+You must provide a Clubhouse API token.  You can put it in `.clubhouse_api_token` in a working
+directory (per-project config), `~/.clubhouse_api_token` (per-user config), or provide the
+environment variable CLUBHOUSE_API_TOKEN.
 
 ## Installation
 
