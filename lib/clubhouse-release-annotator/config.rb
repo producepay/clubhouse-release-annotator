@@ -27,7 +27,7 @@ module ClubhouseReleaseAnnotator
       api_file = LOOKUP_LOCATIONS.find do |path|
         File.exists?(path)
       end
-      return File.read(api_file).strip if api_file
+      File.read(api_file).strip if api_file
     end
 
     class MissingConfigException < Exception
