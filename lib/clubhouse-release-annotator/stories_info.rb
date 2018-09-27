@@ -1,18 +1,18 @@
 require 'clubhouse2'
 
 module ClubhouseReleaseAnnotator
-  class TicketsInfo
-    attr_reader :tickets
+  class StoriesInfo
+    attr_reader :stories
 
-    def initialize(ticket_numbers)
-      @ticket_numbers = ticket_numbers
+    def initialize(story_numbers)
+      @story_numbers = story_numbers
       @client = Clubhouse::Client.new(api_key: Config.instance.clubhouse_api_token)
-      fetch_tickets
+      fetch_stories
     end
 
     private
-      def fetch_tickets
-        @tickets = @ticket_numbers.map do |number|
+      def fetch_stories
+        @stories = @story_numbers.map do |number|
           @client.story(id: number.to_i)
         end
       end

@@ -1,20 +1,21 @@
 require "clubhouse-release-annotator/version"
 require "clubhouse-release-annotator/config"
 require "clubhouse-release-annotator/repository"
-require "clubhouse-release-annotator/tickets_info"
+require "clubhouse-release-annotator/stories_info"
+require "clubhouse-release-annotator/formatter"
+require "byebug"
 
 module ClubhouseReleaseAnnotator
   class CLI
     def self.run
       config = Config.instance
       repo = Repository.new
-      ticket_numbers = repo.referenced_tickets
-      if ticket_numbers.empty?
-        puts "No clubhouse tickets found in this repository since the last tag #{repo.last_release}"
+      story_numbers = repo.referenced_stories
+      if story_numbers.empty?
+        puts "No clubhouse stories found in this repository since the last tag #{repo.last_release}"
       else
-        info = TicketsInfo.new(ticket_numbers)
-        puts "Found tickets:"
-        puts info.tickets.map{ |t| "#{t.id} #{t.name}" }
+        info = StoriesInfo.new(story_numbers)
+        puts Formatter.new(info.stories).format
       end
 
     rescue ClubhouseReleaseAnnotator::Config::MissingConfigException => ex
