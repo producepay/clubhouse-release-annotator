@@ -6,7 +6,7 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
   end
 
   let :mock_git do
-    double(Git, tags: [nil])
+    instance_double(Git::Base, tags: [nil])
   end
 
   describe "#relevant_commits" do
@@ -21,12 +21,12 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
     context "when there's a previous release tagged" do
       before do
         allow(mock_git).to receive(:tags).and_return(
-          [ double(Git::Object::Tag, name: '2018-01-01') ]
+          [instance_double(Git::Object::Tag, name: '2018-01-01')]
         )
       end
 
       it 'looks only for commits since the release' do
-        expect(mock_log).to receive(:between).and_return(mock_log) # .with("2018-01-01", "HEAD")
+        expect(mock_log).to receive(:between).with("2018-01-01", "HEAD").and_return(mock_log)
         repo = described_class.new
         commits = repo.instance_eval('relevant_commits')
         expect(commits).to eql(mock_log)
@@ -50,21 +50,21 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
   describe "#parse_commits" do
     let :annotated_commits do
       [
-        double(Git::Object::Commit, message: '[branch ch123] a commit message'),
-        double(Git::Object::Commit, message: '[branch ch1235] a commit message'),
-        double(Git::Object::Commit, message: '[branch ch1237] a commit message with ticket that appears more than once'),
-        double(Git::Object::Commit, message: '[branch ch1237][branch ch1238] another commit message that finishes two tickets'),
-        double(Git::Object::Commit, message: '[branch ch12345] a commit message with a five digit ticket')
+        instance_double(Git::Object::Commit, message: '[branch ch123] a commit message'),
+        instance_double(Git::Object::Commit, message: '[branch ch1235] a commit message'),
+        instance_double(Git::Object::Commit, message: '[branch ch1237] duplicate ticket'),
+        instance_double(Git::Object::Commit, message: '[branch ch1237][branch ch1238] two tickets'),
+        instance_double(Git::Object::Commit, message: '[branch ch12345] a five digit ticket')
       ]
     end
 
     let :unannotated_commits do
       [
-        double(Git::Object::Commit, message: 'a commit message with no ticket number'),
-        double(Git::Object::Commit, message: '[2234] a commit message without ch'),
-        double(Git::Object::Commit, message: '[ch2235] a commit message without branch'),
-        double(Git::Object::Commit, message: 'a commit message that happens to have number 2235'),
-        double(Git::Object::Commit, message: '[branch ch1237 ch1238] two ticktes in the same tag not currently allowed')
+        instance_double(Git::Object::Commit, message: 'a commit message with no ticket number'),
+        instance_double(Git::Object::Commit, message: '[2234] a commit message without ch'),
+        instance_double(Git::Object::Commit, message: '[ch2235] a commit message without branch'),
+        instance_double(Git::Object::Commit, message: 'a commit  that happens to have number 2235'),
+        instance_double(Git::Object::Commit, message: '[branch ch1237 ch1238] two tickets in tag')
       ]
     end
 
@@ -72,20 +72,26 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       (unannotated_commits + annotated_commits).shuffle
     end
 
-    it 'separates commits into annotated and unannotated' do
+    before do
       allow(mock_git).to receive(:log).and_return(unannotated_commits + annotated_commits)
+    end
+
+    it 'correctly separates annotated commits' do
       repo = described_class.new
-      repo.instance_eval('parse_commits')
-      expect(repo.annotated).to include(*annotated_commits)
-      expect(repo.annotated).not_to include(*unannotated_commits)
-      expect(repo.unannotated).to include(*unannotated_commits)
-      expect(repo.unannotated).not_to include(*annotated_commits)
+      repo.instance_eval('parse_commits', __FILE__, __LINE__)
+      expect(repo.annotated).to contain_exactly(*annotated_commits)
+    end
+
+    it 'correctly separates unannotated commits' do
+      repo = described_class.new
+      repo.instance_eval('parse_commits', __FILE__, __LINE__)
+      expect(repo.unannotated).to contain_exactly(*unannotated_commits)
     end
 
     it 'returns a list of unique commit numbers' do
       allow(mock_git).to receive(:log).and_return(unannotated_commits + annotated_commits)
       repo = described_class.new
-      repo.instance_eval('parse_commits')
+      repo.instance_eval('parse_commits', __FILE__, __LINE__)
       expect(repo.referenced_stories).to contain_exactly('123', '1235', '1237', '1238', '12345')
     end
   end

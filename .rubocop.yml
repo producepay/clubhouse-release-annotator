@@ -2,3 +2,6 @@ require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.4
+
+Metrics/LineLength:
+  Max: 100

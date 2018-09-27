@@ -7,9 +7,9 @@ require 'clubhouse-release-annotator/stories_info'
 require 'clubhouse-release-annotator/formatter'
 
 module ClubhouseReleaseAnnotator
+  # Command-line instance
   class CLI
     def self.run
-      config = Config.instance
       repo = Repository.new
       story_numbers = repo.referenced_stories.sort_by(&:to_i)
       if story_numbers.empty?

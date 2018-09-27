@@ -3,6 +3,7 @@
 require 'clubhouse2'
 
 module ClubhouseReleaseAnnotator
+  # Fetcher / organizer for Clubhouse stories
   class StoriesInfo
     attr_reader :stories
 
@@ -19,5 +20,5 @@ module ClubhouseReleaseAnnotator
         @client.story(id: number.to_i)
       end
     end
-    end
+  end
 end

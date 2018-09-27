@@ -4,6 +4,8 @@ require 'git'
 require 'logger'
 
 module ClubhouseReleaseAnnotator
+  # Git repository manager, scans for & collates commit messages with branch
+  # tags
   class Repository
     attr_reader :annotated, :unannotated
 
@@ -12,11 +14,11 @@ module ClubhouseReleaseAnnotator
     end
 
     def last_release
-      @last_rel ||= @repo.tags.last
+      @last_release ||= @repo.tags.last
     end
 
     def referenced_stories
-      @ref_stories ||= parse_commits
+      @referenced_stories ||= parse_commits
     end
 
     private
@@ -34,9 +36,11 @@ module ClubhouseReleaseAnnotator
     end
 
     def parse_commits
-      @annotated, @unannotated = *(relevant_commits.partition { |com| com.message =~ /\[branch ch\d+\]/ })
+      @annotated, @unannotated = *(relevant_commits.partition do |commit|
+        commit.message =~ /\[branch ch\d+\]/
+      end)
       @annotated.reduce([]) do |accumulator, commit|
-        accumulator += commit.message.scan(/\[branch ch(\d+)\]/).map(&:last)
+        accumulator + commit.message.scan(/\[branch ch(\d+)\]/).map(&:last)
       end.uniq
     end
   end

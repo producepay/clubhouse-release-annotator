@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module ClubhouseReleaseAnnotator
+  # Output formatter, emits markdown-formatted bullets of completed tickets
   class Formatter
     def initialize(stories)
       @stories = stories
