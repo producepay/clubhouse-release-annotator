@@ -11,8 +11,6 @@ module ClubhouseReleaseAnnotator
     end
 
     def last_release
-      # byebug
-      # p :release => @repo.tags.last
       @last_rel ||= @repo.tags.last
     end
 
@@ -21,11 +19,15 @@ module ClubhouseReleaseAnnotator
     end
 
     private
+      def commits
+        @repo.log(Config.instance.max_commits)
+      end
+
       def relevant_commits
         if last_release
-          commits = @repo.log(Config.instance.max_commits).between(last_release.name, "HEAD")
+          commits.between(last_release.name, "HEAD")
         else
-          commits = @repo.log(Config.instance.max_commits)
+          commits
         end
       end
 

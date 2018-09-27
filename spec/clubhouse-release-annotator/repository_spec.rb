@@ -25,9 +25,10 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       end
 
       it "looks only for commits since the release" do
-        expect(mock_log).to receive(:between) #.with("2018-01-01", "HEAD")
+        expect(mock_log).to receive(:between).and_return(mock_log) #.with("2018-01-01", "HEAD")
         repo = ClubhouseReleaseAnnotator::Repository.new
-        repo.instance_eval("relevant_commits")
+        commits = repo.instance_eval("relevant_commits")
+        expect(commits).to eql(mock_log)
       end
     end
 
@@ -39,7 +40,8 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       it "looks at all commits" do
         expect(mock_log).not_to receive(:between)
         repo = ClubhouseReleaseAnnotator::Repository.new
-        repo.instance_eval("relevant_commits")
+        commits = repo.instance_eval("relevant_commits")
+        expect(commits).to eql(mock_log)
       end
     end
   end
