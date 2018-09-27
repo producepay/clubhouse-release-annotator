@@ -31,6 +31,7 @@ output into your RELEASES.md file.
 ## TODO
 
 Possible features to add
+* Ability to pass in a target directory/repository on the command line instead of requiring pwd.
 * Use clubhouse API to filter for only those stories actually completed since the last release
 * Possibly report on stories that were touched but not completed
 * provide command-line flag to report non-completed and/or previously-completed stories
