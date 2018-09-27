@@ -1,28 +1,37 @@
 require 'git'
 require 'logger'
+require 'byebug'
 
 module ClubhouseReleaseAnnotator
   class Repository
-    attr_reader :referenced_stories, :last_release, :annotated, :unannotated
+    attr_reader :annotated, :unannotated
 
     def initialize
       @repo ||= Git.open(Config.instance.repo_directory)
-      parse_commits
+    end
+
+    def last_release
+      # byebug
+      # p :release => @repo.tags.last
+      @last_rel ||= @repo.tags.last
+    end
+
+    def referenced_stories
+      @ref_stories ||= parse_commits
     end
 
     private
-      def last_release
-        @last_release ||= @repo.tags.last
-      end
-
-      def parse_commits
+      def relevant_commits
         if last_release
           commits = @repo.log(Config.instance.max_commits).between(last_release.name, "HEAD")
         else
           commits = @repo.log(Config.instance.max_commits)
         end
-        @annotated, @unannotated = *(commits.partition{ |com| com.message =~ /\[branch ch\d+\]/})
-        @referenced_stories = @annotated.reduce([]) do |accumulator, commit|
+      end
+
+      def parse_commits
+        @annotated, @unannotated = *(relevant_commits.partition{ |com| com.message =~ /\[branch ch\d+\]/})
+        @annotated.reduce([]) do |accumulator, commit|
           accumulator += commit.message.scan(/\[branch ch(\d+)\]/).map(&:last)
         end.uniq
       end
