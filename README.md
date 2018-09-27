@@ -20,8 +20,17 @@ environment variable CLUBHOUSE_API_TOKEN.
 
 ## Usage
 
-In your project directory, run `clubhouse-release-annotator` or `ch-rel`.  Copy and paste the
+In your project directory, run `clubhouse-release-annotator`.  Copy and paste the
 output into your RELEASES.md file.
+
+## TODO
+
+Possible features to add
+* Use clubhouse API to filter for only those stories actually completed since the last release
+* Possibly report on stories that were touched but not completed
+* provide command-line flag to report non-completed and/or previously-completed stories
+* Automatically insert the annotations into README  
+* Possibly search clubhouse for completed features that weren't correctly annotated in git messages
 
 ## Development
 
