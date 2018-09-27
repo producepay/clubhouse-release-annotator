@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'git'
 require 'logger'
 
@@ -18,23 +20,24 @@ module ClubhouseReleaseAnnotator
     end
 
     private
-      def commits
-        @repo.log(Config.instance.max_commits)
-      end
 
-      def relevant_commits
-        if last_release
-          commits.between(last_release.name, "HEAD")
-        else
-          commits
-        end
-      end
+    def commits
+      @repo.log(Config.instance.max_commits)
+    end
 
-      def parse_commits
-        @annotated, @unannotated = *(relevant_commits.partition{ |com| com.message =~ /\[branch ch\d+\]/})
-        @annotated.reduce([]) do |accumulator, commit|
-          accumulator += commit.message.scan(/\[branch ch(\d+)\]/).map(&:last)
-        end.uniq
+    def relevant_commits
+      if last_release
+        commits.between(last_release.name, 'HEAD')
+      else
+        commits
       end
+    end
+
+    def parse_commits
+      @annotated, @unannotated = *(relevant_commits.partition { |com| com.message =~ /\[branch ch\d+\]/ })
+      @annotated.reduce([]) do |accumulator, commit|
+        accumulator += commit.message.scan(/\[branch ch(\d+)\]/).map(&:last)
+      end.uniq
+    end
   end
 end

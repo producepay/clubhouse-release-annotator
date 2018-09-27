@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
-$: << File.join(File.dirname(__FILE__), '..', 'lib')
-require "clubhouse-release-annotator"
+# frozen_string_literal: true
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+require 'clubhouse-release-annotator'
 
 ClubhouseReleaseAnnotator::CLI.run

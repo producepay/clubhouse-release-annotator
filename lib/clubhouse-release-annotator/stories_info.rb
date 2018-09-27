@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'clubhouse2'
 
 module ClubhouseReleaseAnnotator
@@ -11,10 +13,11 @@ module ClubhouseReleaseAnnotator
     end
 
     private
-      def fetch_stories
-        @stories = @story_numbers.map do |number|
-          @client.story(id: number.to_i)
-        end
+
+    def fetch_stories
+      @stories = @story_numbers.map do |number|
+        @client.story(id: number.to_i)
       end
+    end
     end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 module ClubhouseReleaseAnnotator
   class Formatter
@@ -6,8 +7,8 @@ module ClubhouseReleaseAnnotator
     end
 
     def format
-      "".tap do |str|
-        str << '## ' + Time.now.strftime("%Y-%m-%d")
+      ''.tap do |str|
+        str << '## ' + Time.now.strftime('%Y-%m-%d')
         str << "\n\n"
         @stories.each do |story|
           str << "* [__#{story.id}__ #{story.name}](https://app.clubhouse.io/story/#{story.id})\n"
