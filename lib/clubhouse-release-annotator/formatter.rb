@@ -10,7 +10,7 @@ module ClubhouseReleaseAnnotator
         str << '## ' + Time.now.strftime("%Y-%m-%d")
         str << "\n\n"
         @stories.each do |story|
-          str << "* [#{story.id} #{story.name}](https://app.clubhouse.io/story/#{story.id})\n"
+          str << "* [__#{story.id}__ #{story.name}](https://app.clubhouse.io/story/#{story.id})\n"
         end
       end
     end
