@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "clubhouse/release/annotator"
+require "clubhouse-release-annotator"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

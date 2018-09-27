@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     clubhouse-release-annotator (0.1.0)
-      clubhouse2 (~> 1.0.7)
-      git (~> 1.5.0)
+      clubhouse2 (>= 1.0.7)
+      git (~> 1.5, >= 1.5.0)
 
 GEM
   remote: https://rubygems.org/
@@ -62,4 +62,4 @@ DEPENDENCIES
   rspec (~> 3.0)
 
 BUNDLED WITH
-   1.16.2
+   1.16.5

@@ -4,7 +4,7 @@ require 'logger'
 module ClubhouseReleaseAnnotator
   # Your code goes here
   class Repository
-    attr_reader :referenced_tickets, :last_release
+    attr_reader :referenced_tickets, :last_release, :annotated, :unannotated
 
     def initialize
       @repo ||= Git.open('.')

@@ -1,9 +1,6 @@
-RSpec.describe Clubhouse::Release::Annotator do
+RSpec.describe ClubhouseReleaseAnnotator do
   it "has a version number" do
-    expect(Clubhouse::Release::Annotator::VERSION).not_to be nil
+    expect(ClubhouseReleaseAnnotator::VERSION).not_to be nil
   end
 
-  it "does something useful" do
-    expect(false).to eq(true)
-  end
 end
