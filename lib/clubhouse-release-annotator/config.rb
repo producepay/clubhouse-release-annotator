@@ -2,7 +2,6 @@ require 'singleton'
 require 'ostruct'
 
 module ClubhouseReleaseAnnotator
-  # Your code goes here
   class Config < OpenStruct
     include Singleton
 
