@@ -10,12 +10,12 @@ module ClubhouseReleaseAnnotator
 
       repo = Repository.new
       require 'pp'
-
+      # p :api_token => config.clubhouse_api_token
+      p config
       pp repo.tickets
     rescue ClubhouseReleaseAnnotator::Config::MissingConfigException => ex
       puts ex.message
       exit(1)
     end
   end
-  # Your code goes here
 end

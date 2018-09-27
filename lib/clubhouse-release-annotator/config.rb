@@ -1,16 +1,18 @@
 require 'singleton'
+require 'ostruct'
 
 module ClubhouseReleaseAnnotator
   # Your code goes here
-  class Config
+  class Config < OpenStruct
     include Singleton
 
     DEFAULTS = {
       max_commits: 1000
     }
     def initialize
-      @config = DEFAULTS.clone
-      @config[:clubhouse_api_token] = get_clubhouse_api_token
+      super(DEFAULTS)
+      self[:clubhouse_api_token] = get_clubhouse_api_token
+      self[:working_directory] = Dir.pwd
     end
 
     def get_clubhouse_api_token
@@ -21,11 +23,12 @@ module ClubhouseReleaseAnnotator
       @token
     end
 
+    LOOKUP_LOCATIONS = ['~/.clubhouse_api_token', './.clubhouse_api_token'].map{|f| File.expand_path(f)}
     def get_clubhouse_api_token_from_file
-      ['~/.clubhouse_api_token', './.clubhouse_api_token'].find do |fname|
-        # File.exists?(fname)
-        nil
+      api_file = LOOKUP_LOCATIONS.find do |path|
+        File.exists?(path)
       end
+      return File.read(api_file).strip if api_file
     end
 
     class MissingConfigException < Exception
