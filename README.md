@@ -11,23 +11,17 @@ environment variable CLUBHOUSE_API_TOKEN.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'clubhouse-release-annotator'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install clubhouse-release-annotator
+1. Clone this repository
+1. `cd clubhouse-release-annotator`
+1. `rbenv local <Ruby version of your project>`
+1. `bundle`
+1. `gem build clubhouse-release-annotator.gemspec`
+1. `gem install clubhouse-release-annotator --local`
 
 ## Usage
 
-TODO: Write usage instructions here
+In your project directory, run `clubhouse-release-annotator` or `ch-rel`.  Copy and paste the
+output into your RELEASES.md file.
 
 ## Development
 

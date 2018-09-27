@@ -6,7 +6,7 @@ module ClubhouseReleaseAnnotator
     attr_reader :referenced_stories, :last_release, :annotated, :unannotated
 
     def initialize
-      @repo ||= Git.open('.')
+      @repo ||= Git.open(Config.instance.repo_directory)
       parse_commits
     end
 
