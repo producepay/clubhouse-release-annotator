@@ -33,12 +33,18 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       allow(mock_git).to receive(:log).and_return(unannotated_commits + annotated_commits)
       repo = ClubhouseReleaseAnnotator::Repository.new
       repo.instance_eval("parse_commits")
-      puts "annotated"
-      p repo.annotated.map(&:message)
       expect(repo.annotated).to include(*annotated_commits)
       expect(repo.annotated).not_to include(*unannotated_commits)
       expect(repo.unannotated).to include(*unannotated_commits)
       expect(repo.unannotated).not_to include(*annotated_commits)
+    end
+
+    it "returns a list of unique commit numbers" do
+      allow(Git).to receive(:open).and_return(mock_git)
+      allow(mock_git).to receive(:log).and_return(unannotated_commits + annotated_commits)
+      repo = ClubhouseReleaseAnnotator::Repository.new
+      repo.instance_eval("parse_commits")
+      expect(repo.referenced_tickets).to include_exactly(["123", "1235", "1237", "1238", "12345"])
     end
 
   end
