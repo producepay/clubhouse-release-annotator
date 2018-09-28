@@ -12,6 +12,7 @@ module ClubhouseReleaseAnnotator
     def self.run # rubocop:disable Metrics/MethodLength
       repo = Repository.new
       story_numbers = repo.referenced_stories.sort_by(&:to_i)
+
       if story_numbers.empty?
         puts "No clubhouse stories found in this repository since the last tag #{repo.last_release}"
       else

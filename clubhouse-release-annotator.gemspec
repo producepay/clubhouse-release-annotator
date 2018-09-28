@@ -2,7 +2,7 @@
 
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'clubhouse-release-annotator/version'
+require 'clubhouse_release_annotator/version'
 
 Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.name          = 'clubhouse-release-annotator'
@@ -39,6 +39,6 @@ Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.add_development_dependency 'rubocop', '>= 0.56.0'
   spec.add_development_dependency 'rubocop-rspec', '~> 1.25'
 
-  spec.add_dependency 'clubhouse2', '>= 1.0.7'
+  spec.add_dependency 'clubhouse2', '~> 1.0'
   spec.add_dependency 'git', '~> 1.5', '>= 1.5.0'
 end

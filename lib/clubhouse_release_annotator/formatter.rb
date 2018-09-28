@@ -8,7 +8,7 @@ module ClubhouseReleaseAnnotator
     end
 
     def format
-      ''.tap do |str|
+      String.new.tap do |str|
         str << '## ' + Time.now.strftime('%Y-%m-%d')
         str << "\n\n"
         @stories.each do |story|
