@@ -9,9 +9,9 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
     instance_double(Git::Base, tags: [nil])
   end
 
-  describe "#relevant_commits" do
+  describe '#relevant_commits' do
     let :mock_log do
-      double(Array)
+      double(Array) # rubocop:disable RSpec/VerifiedDoubles
     end
 
     before do
@@ -26,9 +26,10 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       end
 
       it 'looks only for commits since the release' do
-        expect(mock_log).to receive(:between).with("2018-01-01", "HEAD").and_return(mock_log)
+        allow(mock_log).to receive(:between).and_return(mock_log)
         repo = described_class.new
-        commits = repo.instance_eval('relevant_commits')
+        commits = repo.instance_eval('relevant_commits', __FILE__, __LINE__)
+        expect(mock_log).to have_received(:between).with('2018-01-01', 'HEAD')
         expect(commits).to eql(mock_log)
       end
     end
@@ -39,15 +40,16 @@ RSpec.describe ClubhouseReleaseAnnotator::Repository do
       end
 
       it 'looks at all commits' do
-        expect(mock_log).not_to receive(:between)
+        allow(mock_log).to receive(:between)
         repo = described_class.new
-        commits = repo.instance_eval('relevant_commits')
+        commits = repo.instance_eval('relevant_commits', __FILE__, __LINE__)
+        expect(mock_log).not_to have_received(:between)
         expect(commits).to eql(mock_log)
       end
     end
   end
 
-  describe "#parse_commits" do
+  describe '#parse_commits' do
     let :annotated_commits do
       [
         instance_double(Git::Object::Commit, message: '[branch ch123] a commit message'),

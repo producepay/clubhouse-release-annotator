@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require 'clubhouse-release-annotator/version'
-require 'clubhouse-release-annotator/config'
-require 'clubhouse-release-annotator/repository'
-require 'clubhouse-release-annotator/stories_info'
-require 'clubhouse-release-annotator/formatter'
+require 'clubhouse_release_annotator/version'
+require 'clubhouse_release_annotator/config'
+require 'clubhouse_release_annotator/repository'
+require 'clubhouse_release_annotator/stories_info'
+require 'clubhouse_release_annotator/formatter'
 
 module ClubhouseReleaseAnnotator
   # Command-line instance
   class CLI
-    def self.run
+    def self.run # rubocop:disable Metrics/MethodLength
       repo = Repository.new
       story_numbers = repo.referenced_stories.sort_by(&:to_i)
       if story_numbers.empty?

@@ -4,7 +4,7 @@ lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'clubhouse-release-annotator/version'
 
-Gem::Specification.new do |spec|
+Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
   spec.name          = 'clubhouse-release-annotator'
   spec.version       = ClubhouseReleaseAnnotator::VERSION
   spec.authors       = ['Evan Dorn']

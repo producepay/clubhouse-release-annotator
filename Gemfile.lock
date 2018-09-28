@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    clubhouse-release-annotator (0.1.3)
+    clubhouse-release-annotator (0.1.2)
       clubhouse2 (>= 1.0.7)
       git (~> 1.5, >= 1.5.0)
 
